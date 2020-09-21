@@ -10,7 +10,8 @@ Software versions used in the paper:
 
  * irace 3.0
  * SUMO 0.22.0
-
+ * Perl 5
+ 
 
 Installation
 -------------
@@ -29,15 +30,17 @@ Installation
  4. The files `./irace/target-runner-rel` and `./irace/target-runner-abs`
     require Perl 5.
 
-
+ 5. The setup is designed for GNU/Linux. It may be possible to make it work in
+    Windows or OSX, but you may need to rewrite some of the scripts.
+    
+ 
 Execution
 ----------
 
 Look at scenarios in `src/irace/`, choose one, for example
-`scenario-abs-repjavier-first2new0confs10.txt`. Then run: 
+`scenario-abs-repjavier-first2new0confs10.txt`. Then run (removing `scenario-`): 
 
-
-        $ run.sh first2new0confs10 2
+        $ run.sh abs-repjavier-first2new0confs10 2
   
 This will create a directory `./execdir-2` with the results of irace.
 
