@@ -3,7 +3,10 @@ irace + SUMO: Reliable simulation-optimization of traffic lights in a real-world
 
 Javier Ferrer, Manuel López-Ibáñez, and Enrique Alba. **Reliable
 simulation-optimization of traffic lights in a real-world city**. 
-_Applied Soft Computing_, 78:697–711, 2019. doi:10.1016/j.asoc.2019.03.016
+_Applied Soft Computing_, 78:697–711, 2019.
+doi:[https://doi.org/10.1016/j.asoc.2019.03.016](10.1016/j.asoc.2019.03.016)
+<br>
+[[https://iridia-ulb.github.io/references/index_bib.html#FerLopAlb2019asoc]( bibtex )]
 
 
 Software versions used in the paper:
