@@ -1,0 +1,62 @@
+malaga
+../instances/malaga/
+56
+190
+1001814 2 GG yy 
+1001816 2 GG yy 
+1001818 2 GG yy 
+1001820 2 GG yy 
+1001822 2 GG yy 
+1001824 2 GG yy 
+10027131 2 GG yy 
+10074 4 GGrrrrGG yyrrrryy rrGGGGrr rryyyyrr 
+1628306455 4 GGGr yyyr GrrG yrry 
+1628918957 4 GGrr yyrr rrGG rryy 
+1777568746 4 GGrrGG yyrryy rrGGrr rryyrr 
+294035840 4 GGrrG yyrry rrGGG rryyy 
+294035851 4 Grr yrr rGG ryy 
+302890008 2 GGG yyy 
+303010204 4 rrGGGG rryyyy GGrrrr yyrrrr 
+303010241 4 rrGGGGG rryyyyy GGGrrrr yyyrrrr 
+303275184 2 GG yy 
+303275910 4 GGrrrrGG yyrrrryy rrGGGGrr rryyyyrr 
+303278079 4 Grr yrr rGG ryy 
+331525908 2 GGGGG yyyyy 
+331526235 4 GGGrr yyyrr GrrGG yrryy 
+418218748 4 GGGrrr yyyrrr GGrGGG yyryyy 
+418221294 6 GGgrrGGG yygrryyy rrGrrrrr rryrrrrr rrrGGGrr rrryyyrr 
+418376984 4 GGGrrr yyyrrr rrGGGG rryyyy 
+418976374 4 Grr yrr rGG ryy 
+418977426 4 GGrrGG yyrryy rrGGrr rryyrr 
+418977709 4 GGrrG yyrry rrGGr rryyr 
+418986725 2 GG yy 
+418989199 2 GG yy 
+419630409 4 rrrrGGGG rrrryyyy GGGGrrrr yyyyrrrr 
+419640944 2 GG yy 
+419641199 2 GG yy 
+419641406 4 GGGrr yyyrr rrrGG rrryy 
+419641424 2 GGGG yyyy 
+419665949 4 GGrr yyrr rrGG rryy 
+419677113 4 GGGrr yyyrr GrrGG yrryy 
+419677118 4 GGrr yyrr rrGG rryy 
+419680393 4 GGrr yyrr rrGG rryy 
+549225865 2 GG yy 
+549225993 2 GG yy 
+549226011 2 GG yy 
+549226082 2 GG yy 
+577406877 2 GG yy 
+767455134 6 GGGrrrrGGg yyyrrrryyg rrrrrrrrrG rrrrrrrrry rrrGGGGrrr rrryyyyrrr 
+767455162 4 GG yy GG yy 
+891445901 4 GGGrr yyyrr GrrGG yrryy 
+891445947 2 GGGGGG yyyyyy 
+891445989 4 GGrr yyrr rrGG rryy 
+cluster_-18_419660087 4 GGGrrrGG yyyrrryy GrrGGGrr yrryyyrr 
+cluster_-20_419664747 4 GGGGGrrrr yyyyyrrrr rrrrrGGGG rrrrryyyy 
+cluster_1628707295_418599238 4 GGGrrrGG yyyrrryy GrrGGGrr yrryyyrr 
+cluster_248606010_248606019 6 GGGGGgrr yyyyygrr rrrrrGrr rrrrryrr GrrrrrGG yrrrrryy 
+cluster_248606020_248742493 6 rrrGGGrrrGGG rrryyyrrryyy GGgrrrGGgGrr yygrrryygyrr rrGrrrrrGrrr rryrrrrryrrr 
+cluster_418185723_427884105 4 GGGGrr yyyyrr rrrrGG rrrryy 
+cluster_418376965_418976376 4 GGGGrr yyyyrr rrrrGG rrrryy 
+cluster_419660800_419665935 4 GGGrrrrGG yyyrrrryy rrrGGGGrr rrryyyyrr 
+1200
+3600

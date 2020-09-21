@@ -1,0 +1,13 @@
+###################################################### -*- mode: r -*- #####
+## Scenario setup for Iterated Race (iRace).
+############################################################################
+
+eval.parent(source("scenario-abs.txt", chdir = TRUE, local = TRUE))
+repairConfiguration = repair.javier
+nbConfigurations = 1000
+nbIterations = 1
+firstTest = 30
+maxExperiments = 31000
+## END of scenario file
+############################################################################
+

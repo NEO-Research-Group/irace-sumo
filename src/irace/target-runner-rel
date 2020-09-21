@@ -1,0 +1,262 @@
+#!/usr/bin/perl -w
+use strict;
+use warnings FATAL => 'all';
+use diagnostics;
+use File::Temp qw/ tempdir /;
+sub max ($$) { $_[$_[0] < $_[1]] }
+use Cwd 'abs_path';
+use File::Basename;
+my $bindir = dirname(abs_path($0));
+
+my $debug = 0;
+
+my $mincycle = 60;
+my $maxcycle = 120;
+my $minphase = 15;
+my $minoffset = -30;
+my $maxoffset = 30;
+my $pedestrian = 4;
+my $fixedphase = 4;
+
+# When called with a single argument, generate parameters
+if (@ARGV == 1) {
+    generate_parameters($ARGV[0]);
+    exit 0;
+}
+
+###############################################################################
+# This script is the command that is executed every run.
+# Check the examples in examples/
+#
+# This script is run in the execution directory (execDir, --exec-dir).
+#
+# PARAMETERS:
+# $1 is the candidate configuration number
+# $2 is the instance ID
+# $3 is the seed
+# $4 is the instance name
+# The rest ($* after `shift 4') are parameters to the run
+#
+# RETURN VALUE:
+# This script should print one numerical value: the cost that must be minimized.
+# Exit with 0 if no error, with 1 in case of error
+###############################################################################
+my $EXE = abs_path("$bindir/../sumo-wrapper/code/sumo-wrapper");
+my $FIXED_PARAMS="";
+
+my $CANDIDATE = shift @ARGV;
+my $INSTANCEID = shift @ARGV;
+my $SEED = shift @ARGV;
+$SEED = 0; # We use always zero to match Javier's GA
+my $INSTANCE = shift @ARGV;
+my $ROUFILE = shift @ARGV;
+die "${INSTANCE}: No such file or directory" unless (-s "${INSTANCE}");
+
+my $pwd=`pwd`;
+my $STDOUT="c${CANDIDATE}-${INSTANCEID}.stdout";
+my $STDERR="c${CANDIDATE}-${INSTANCEID}.stderr";
+
+my $sumcycle = 0;
+my $solution = "";
+my $ncycles = 1;
+my $tcycle = -1;
+my $value;
+
+while (@ARGV) {
+    my $x = shift @ARGV;
+    if ($x eq '-o') {
+        $value = shift @ARGV;
+        $solution .= "$value ";
+        warn "$ncycles: offset = $value" if ($debug);
+    } elsif ($x eq '-fp' or $x eq '-fv') {
+        $value = shift @ARGV;
+        if ($tcycle >= 0) {
+            # Finish previous cycle
+            die "found $x $value ($tcycle) $sumcycle > $maxcycle \n" if ($sumcycle > $maxcycle + 1);
+            die "found $x $value ($tcycle) $sumcycle < $mincycle \n" if ($sumcycle < $mincycle - 1);
+            $tcycle = -1;
+            $sumcycle = 0;
+            $ncycles++;
+        }
+        if ($x eq '-fv') {
+            die "$x $value < $minphase\n" if ($value < $minphase);
+        }
+        $solution .= "$value ";
+        warn "$ncycles: $x = $value, tcycle = $tcycle, sumcycle = $sumcycle" if ($debug);
+    } elsif ($x eq '-fy') {
+        $value = shift @ARGV;
+        die "-fy without -c before!" unless ($tcycle >= 0);
+        $sumcycle += $value;
+        $solution .= "$value ";
+        warn "$ncycles: $x = $value, tcycle = $tcycle, sumcycle = $sumcycle" if ($debug);
+    } elsif ($x eq "-c") {
+        $value = shift @ARGV;
+        if ($tcycle >= 0) {
+            # Finish the cycle
+            die "found $sumcycle > $maxcycle after $x $tcycle before $x $value\n" if ($sumcycle > $maxcycle + 1);
+            die "found $sumcycle < $mincycle after $x $tcycle before $x $value\n" if ($sumcycle < $mincycle - 1);
+            $ncycles++;
+        }
+        $tcycle = $value;
+        $sumcycle = 0;
+        warn "$ncycles: $x = $value, tcycle = $tcycle, sumcycle = $sumcycle" if ($debug);
+    } else {
+        die "not within a cycle $tcycle\n" unless ($tcycle >= 0);
+        $value = int(0.5 + (($x * $tcycle)));
+        $value += $minphase;
+        die "round($x * $tcycle) + $minphase = $value < $minphase\n" if ($value < $minphase);
+        $sumcycle += $value;
+        $solution .= "$value ";
+        warn "$ncycles: $value ($x), tcycle = $tcycle, sumcycle = $sumcycle" if ($debug);
+    }
+}
+if ($tcycle >= 0) {
+    # Finish the cycle
+    die "end ($tcycle) $sumcycle > $maxcycle \n" if ($sumcycle > $maxcycle + 1);
+    die "end ($tcycle) $sumcycle < $mincycle \n" if ($sumcycle < $mincycle - 1);
+}
+#`du --human-readable -s . > $STDERR 2>&1`;
+#`df --human-readable . >> $STDERR 2>&1`;
+my $OUTDIR = tempdir( CLEANUP => 1 );
+open my $solfh, '>', "${OUTDIR}/solution" or die "solution: $!\n";
+print $solfh $solution . "\n";
+close $solfh;
+
+# If the program just prints a number, we can use 'exec' to avoid
+# creating another process, but there can be no other commands after exec.
+#exec $EXE ${FIXED_PARAMS} -i $INSTANCE ${CAND_PARAMS}
+# exit 1
+# 
+# Otherwise, save the output to a file, and parse the result from it.
+# (If you wish to ignore segmentation faults you can use '{}' around
+# the command.)
+`cat ${OUTDIR}/solution >> $STDERR`;
+`echo $EXE ${FIXED_PARAMS} $INSTANCE ${OUTDIR}/solution $STDOUT $SEED $OUTDIR $ROUFILE >> $STDERR`;
+`$EXE ${FIXED_PARAMS} $INSTANCE ${OUTDIR}/solution $STDOUT $SEED $OUTDIR $ROUFILE >> ${STDERR} 2>&1`;
+
+
+# This is an example of reading a number from the output.
+# It assumes that the objective value is the first number in
+# the first column of the only line starting with a digit.
+sleep 1 unless (-s "${STDOUT}");
+
+if (-s "${STDOUT}") {
+    print `grep '// Fitness' ${STDOUT} | cut -f1 -d ' '`;
+    unlink "${STDOUT}", "${STDERR}";
+    exit 0;
+} else {
+    open FILE, "${STDERR}" or die "Couldn't open ${STDERR}: $!"; 
+    my $string = join("\n", <FILE>); 
+    close FILE;
+    die "${STDOUT}: No such file or directory\n${STDERR}:\n$string";
+}
+exit 0;
+
+sub generate_parameters {
+    my $filename = shift;
+    my @lines = `cat $filename`;
+    
+    my $ncycles = 1;
+    my $ktlogics = 0;
+    my $kphases = 0;
+    my $lower;
+    my $upper;
+
+    print <<EOF;
+# Types of variables:
+# o        offset
+# f_p -fp  constant value that is not preceded by a -c; 
+#          either a pedestrian phase ($pedestrian seconds
+#          per lane) or a yellow phase; do not check minimum
+# f_y -fy  constant value that is preceded by a -c;
+#          either a pedestrian phase ($pedestrian seconds
+#          per lane) or a yellow phase; do not check minimum
+# f_v -fv  phase given in seconds; check > $minphase; check [$mincycle, $maxcycle]
+# c   -c   length of a new cycle, check [$mincycle, $maxcycle]
+# p        phase given as a ratio [0, 1] of the previous cycle value;
+#          check > $minphase, and sum of values [$mincycle, $maxcycle]
+EOF
+my $ntlogics;
+while (@lines) {
+    my $line = shift @lines;
+    if ($line =~ /^(\d+)$/) {
+        $ntlogics = 0 + $1; last;
+    }
+}
+my $nphases = 0 + shift @lines;
+
+LINE: foreach my $line (@lines) {
+    if ($line =~ /^([^\s]+)\s+(?:[-.\d]+)?\s+(?:[-.\d]+)?\s+([\d]+)\s+((?:[a-zA-Z]\s*)+)$/) {
+        $ktlogics++;
+        my $id = $1;
+        my $num = $2;
+        my @phases = split(/\s+/, $3);
+        die "couldn't match $num phases in $line\n" if (@phases != $num);
+
+        if ($minoffset == $maxoffset) {
+            print "o${ktlogics} \"-o \" c ($minoffset) # $id $num\n";
+        } else {
+            print "o${ktlogics} \"-o \" i ($minoffset, $maxoffset) # $id $num\n";
+        }
+        # Count fixed time phases
+        my $fixedtotaltime = 0;
+        my $pedestrian_time = 0;
+        my $nfixed = 0;
+        for (my $i = 0; $i < $num; $i++) {
+            if (index($phases[$i], 'y') >= 0
+                and $phases[$i] =~ /[Ggr]/) {
+                $nfixed++;
+                $fixedtotaltime += $fixedphase;
+            } elsif ($phases[$i] =~ /^y+$/) {
+                $nfixed++;
+                my $lanes = length($phases[$i]);
+                $pedestrian_time = $lanes * $pedestrian;
+                $fixedtotaltime += $pedestrian_time;
+            } else {
+                $fixedtotaltime += $minphase;
+            }
+        }
+        my $nnotfixed = $num - $nfixed;
+
+        if ($nnotfixed == 1) {
+            $lower = max ($mincycle - $pedestrian_time, $minphase);
+            $upper = max ($maxcycle - $pedestrian_time, $lower + 1);
+            for (my $i = 0; $i < $num; $i++) {
+                $kphases++;
+                if ($phases[$i] =~ /^y+$/) {
+                    print "f_p_${ktlogics}_${i} \"-fp \" c ($pedestrian_time)";
+                } else {
+                    print "f_v_${ktlogics}_${i} \"-fv \" i ($lower, $upper)";
+                }
+                print " # $id $num $phases[$i] (pedestrian cross)\n";
+            }
+            next LINE;
+        }
+        $debug and warn "fixedtotaltime = $fixedtotaltime\n";
+        # Parameter for cycle
+        $lower = max ($mincycle - $fixedtotaltime, 0);
+        $upper = max ($maxcycle - $fixedtotaltime, $lower + 1);
+        print "c${ktlogics} \"-c \" i ($lower, $upper) # $ncycles $id $num\n";
+        $ncycles++;
+
+        my $plower = 0;
+        my $pupper = 1;
+        die "p${ktlogics} \"\" r ($plower,$pupper) # $id $num $line: $plower >= $pupper!" if ($plower >= $pupper);
+        for (my $i = 0; $i < $num; $i++) {
+            $kphases++;
+            if (index($phases[$i], 'y') >= 0 and
+                $phases[$i] =~ /[Ggr]/) {
+                print "f_y_${ktlogics}_${i} \"-fy \" c (4) # $id $num $phases[$i]\n";
+            } elsif ($phases[$i] =~ /^y+$/) {
+                print "f_y_${ktlogics}_${i} \"-fy \" c ($pedestrian_time) # $id $num $phases[$i] (pedestrian cross)\n";
+            } else {
+                print "p${ktlogics}_${i} \"\" r ($plower,$pupper) # $id $num $phases[$i]\n";
+            }
+        }
+    }
+}
+
+die "mismatch of tlogics read ($ktlogics) and number of tlogics specified in the third line ($ntlogics)\n" if ($ktlogics != $ntlogics);
+die "mismatch of phases read ($kphases) and number of phases specified in the fourth line ($nphases)\n" if ($kphases != $nphases);
+
+}

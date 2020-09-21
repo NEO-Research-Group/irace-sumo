@@ -1,0 +1,22 @@
+###################################################### -*- mode: r -*- #####
+## Scenario setup for Iterated Race (iRace).
+############################################################################
+
+eval.parent(source("scenario-abs.txt", chdir = TRUE, local = TRUE))
+repairConfiguration = repair.javier
+## Number of instances to add to execution list before previous instances in
+## elitist irace.
+elitistNewInstances = 0
+## Specifies how many instances are seen before the first elimination
+## test. It must be a multiple of eachTest.
+firstTest = 2
+
+## The number of configurations that should be sampled and evaluated at
+## each iteration. Do no use something else than
+## the default (that is, the dynamic value) unless you know exactly
+## what you are doing.
+nbConfigurations = 10
+
+## END of scenario file
+############################################################################
+

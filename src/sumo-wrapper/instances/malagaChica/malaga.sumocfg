@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<configuration>
+   <input>
+      <net-file value="malaga.net.xml"/>
+      <additional-files value="tls.add.xml vhtypes.add.xml"/> 
+   </input>
+   <time>
+      <begin value="0"/>
+      <end value="4200"/>
+   </time>
+   <seed value="0"/>
+   <time-to-teleport value="-1"/>
+   <lanechange.allow-swap value="true"/>
+   <no-step-log value="true"/>
+   <output>
+      <tripinfo-output value="tripinfo.out.xml" /> 
+      <summary-output value="summary.out.xml" /> 
+      <emission-output value="emission.out.xml" />
+   </output>
+   <emissions>
+      <device.emissions.probability value="1.0" />
+   </emissions>
+</configuration>
+

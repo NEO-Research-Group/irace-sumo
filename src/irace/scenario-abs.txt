@@ -1,0 +1,409 @@
+###################################################### -*- mode: r -*- #####
+## Scenario setup for Iterated Race (iRace).
+############################################################################
+
+## To use the default value of a parameter of iRace, simply do not set
+## the parameter (comment it out in this file, and do not give any
+## value on the command line).
+
+## File that contains the description of the parameters.
+parameterFile = "./parameters-abs.txt"
+
+## Directory where the programs will be run.
+execDir = "./execdir"
+
+## File to save tuning results as an R dataset, either absolute path
+## or relative to execDir.
+# logFile = "./irace.Rdata"
+
+## Directory where tuning instances are located, either absolute path or
+## relative to current directory.
+trainInstancesDir = "./"
+
+## File with a list of instances and (optionally) parameters.
+## If empty or NULL, do not use a file.
+trainInstancesFile = "./malagaChica-train.txt"
+
+## A file containing a list of initial configurations.
+## If empty or NULL, do not use a file.
+# configurationsFile = ""
+
+## The script called for each configuration that launches the program to be
+## tuned.  See templates/target-runner.tmpl
+targetRunner = "./target-runner-abs"
+
+## Number of times to retry a call to target-runner if the call failed.
+targetRunnerRetries = 5
+
+## Optional data passed to targetRunner. This is ignored by the default
+## targetRunner function, but it may be used by custom targetRunner functions
+## to pass persistent data around.
+# targetRunnerData = NULL
+
+## Optional R function to provide custom parallelization of target.runner.  The
+## signature of this function should be 'function(experiments, target.runner,
+## scenario)', where target.runner is an R function, 'experiments' is a list
+## such that each of its elements will be the argument to one call of
+## target.runner, and scenario will also be passed to every call. See
+## help(target.runner.default) for details.
+# targetRunnerParallel = NULL
+
+## Optional script that provides a numeric value for each configuration.
+## See templates/target-evaluator.tmpl
+# targetEvaluator = ""
+
+## The maximum number of runs (invocations of targetRunner) that will
+## performed. It determines the (maximum) budget of experiments for the tuning.
+maxExperiments = 30000
+
+## The maximum time in seconds for the runs of targetRunner that will be 
+## performed. The mean execution time is estimated to calculate the maximum number 
+## of experiments. When this is used targetRunner must return the execution time
+## as second output.
+# maxTime = 0             
+
+## The percentage of the budget used for estimating the mean execution time.
+## Only used when maxTime > 0.
+# budgetEstimation = 0.02
+
+## Directory where testing instances are located, either absolute or relative
+## to current directory.
+testInstancesDir = "./"
+
+## File containing a list of test instances and optionally additional
+## parameters for them.  If empty or NULL, do not use a file.
+testInstancesFile = "malagaChica-test.txt"
+
+## Number of elite configurations returned by irace that will be tested
+## if test instances are provided.
+testNbElites = 1
+
+## Enable/disable testing the elite configurations found at each iteration.
+testIterationElites = 1
+
+## Indicates the number of decimal places to be considered for the
+## real parameters.
+# digits = 4
+
+## A value of 0 silences all debug messages. Higher values provide
+## more verbose debug messages.
+# debugLevel = 0
+
+## Number of iterations of Race. Do not use something else than the
+## default (that is, the dynamic value) unless you know exactly what
+## you are doing.
+# nbIterations = 0
+
+## Number of experiments per iteration. Do no use something else than
+## the default (that is, the dynamic value) unless you know exactly
+## what you are doing.
+# nbExperimentsPerIteration = 0
+
+## Sample the instances or take them always in the same order.
+# sampleInstances = 1
+
+## Specifies the statistical test type: F-test or t-test.
+# testType = "F-test"
+
+## Specifies how many instances are seen before the first elimination
+## test. It must be a multiple of eachTest.
+# firstTest = 5
+
+## Specifies how many instances are seen between elimination tests.
+# eachTest = 1
+
+## The minimum number of configurations that should survive to continue one
+## iteration. Do not use something else than the default (that is, the
+## dynamic value) unless you know exactly what you are doing.
+# minNbSurvival = 0
+
+## The number of configurations that should be sampled and evaluated at
+## each iteration. Do no use something else than
+## the default (that is, the dynamic value) unless you know exactly
+## what you are doing.
+# nbConfigurations = 0
+
+## This value is used to determine the number of configurations
+## to be sampled and evaluated at each iteration. Use
+## the default unless you know exactly what you are doing.
+# mu = 5
+
+## Enable/disable deterministic algorithm mode, if enabled irace
+## will not use an instance more that once in each race. Note that
+## if the number of instances provided is less than firstTest, no
+## statistical test will be performed. 
+deterministic = 1
+
+## Seed of the random number generator (must be a positive integer, NA
+## means use a random seed).
+# seed = NA
+
+## Number of calls to targetRunner to execute in parallel. Less than 2
+## means calls to targetRunner are sequentially executed.
+# parallel = 0
+
+## Enable/disable load-balancing when executing experiments in
+## parallel. Load-balancing makes better use of computing resources, but
+## increases communication overhead. If this overhead is large, disabling
+## load-balancing may be faster.
+# loadBalancing = 1
+
+## Enable/disable SGE cluster mode. Use qstat to wait for
+## cluster jobs to finish (targetRunner must invoke qsub).
+# sgeCluster = 0
+
+## Enable/disable MPI. Use MPI to execute targetRunner in parallel
+## (parameter parallel is the number of slaves).
+# mpi = 0
+
+## Enable/disable the soft restart strategy that avoids premature convergence
+## of the probabilistic model.
+# softRestart = 1
+
+## Confidence level for the elimination test.
+# confidence = 0.95
+
+## Previously saved log file to recover the execution of irace, either
+## absolute path or relative to the current directory. If empty or
+## NULL, recovery is not performed.
+# recoveryFile = ""
+
+## File containing a list of logical expressions that cannot be true
+## for any evaluated configuration. If empty or NULL, do not use a file.
+# forbiddenFile = ""
+
+## Enable/disable elitist irace.
+# elitist = 1
+
+## Number of instances to add to execution list before previous instances in
+## elitist irace.
+# elitistNewInstances  = 1
+
+## Limit for the elitist race, number of statistical test performed without 
+## elimination of configurations.
+# elitistLimit  = 2
+
+repair.manuel <- function (configuration, parameters, digits)
+{
+  maxcycle <- as.numeric(parameters$domain[["maxcycle"]])
+  mincycle <- as.numeric(parameters$domain[["mincycle"]])
+  minphase <- as.numeric(parameters$domain[["minphase"]])
+  debugme <- FALSE
+  
+  startsWith <- function (str, text, trim = FALSE, ignore.case = FALSE) {
+    if (trim) 
+      str <- trim(str)
+    if (ignore.case) {
+        str <- toupper(str)
+        text <- toupper(text)
+    }
+    substr(str, start = 1, stop = nchar(text)) == text
+  }
+  
+  fixedtime <- 0
+  first <- 0
+  sumcycle <- 0
+  # Meta-data colnames begin with "."
+  if (debugme)
+    print(configuration[1,])
+  x <- which(!startsWith(colnames(configuration), "."))
+  i <- min(x)
+  n <- max(x) + 1
+  if (debugme) { cat("i = ", i, ", n = ", n, "\n") }
+  # FIXME: All these could be precalculated when generating parameters.
+  while (i <= n) {
+    if ((i < n) && !startsWith(colnames(configuration)[i], "o")) {
+      # Within a cycle
+      if (startsWith(colnames(configuration)[i], "c")) {
+        fixedtime <- fixedtime + as.numeric(configuration[1, i])
+      } else {
+        fixedtime <- fixedtime + minphase
+      }
+      sumcycle <- sumcycle + as.numeric(configuration[1, i])
+      if (debugme) {
+        cat(colnames(configuration)[i], " : i = ", i,
+            " sumcycle:", sumcycle, ", fixedtime:", fixedtime, "\n")
+      }
+      i <- i + 1
+      next;
+    }
+    if (first > 0) {
+      # Finish previous cycle
+      if (debugme) {
+        cat ("sumcycle:", sumcycle, ", fixedtime:", fixedtime, "\n")
+        print(configuration[1, first:(i-1)])
+      }
+
+      sumcycle2 <- 0
+      j <- first
+      if (sumcycle < mincycle) {
+        pos <- which(startsWith(colnames(configuration), "p"))
+        pos <- pos[pos >= first & pos < i]
+        value <- mincycle - sumcycle
+        configuration[1, pos] <- configuration[1, pos] +
+          ((mincycle - sumcycle) %/% length(pos)) +
+            ((mincycle - sumcycle) %% length(pos) != 0)
+        sumcycle <- sum(as.numeric(configuration[1, first:(i-1)]))
+        if (debugme) {
+          cat ("sumcycle:", sumcycle, ", fixedtime:", fixedtime,
+               "%/% =", ((mincycle - sumcycle) %/% length(pos)),
+               "%% =", ((mincycle - sumcycle) %% length(pos)), "\n")
+          print(configuration[1, first:(i-1)])
+        }
+      }
+
+      while (j < i) {
+        value <- as.numeric(configuration[1,j]);
+        if (startsWith(colnames(configuration)[j], "p")) {
+          # Fix cycle
+          if (sumcycle > maxcycle) {
+            stopifnot(sumcycle > fixedtime)
+            # round accumulates errors at a rate of length(value) / 2, trunc
+            # underestimates, but this is ok because the minphase is enforced.
+            value <- trunc(minphase + (((value - minphase) * (maxcycle - fixedtime)) 
+                                 / (sumcycle - fixedtime)))
+            configuration[1,j] <- value
+          }
+          stopifnot (value >= minphase)
+        } else {
+          stopifnot(startsWith(colnames(configuration)[j], "c"))
+        }
+        sumcycle2 <- sumcycle2 + value;
+        j <- j + 1
+      }
+      # off-by-one -> adjust
+      if (sumcycle2 == maxcycle + 1) {
+        pos <- which(startsWith(colnames(configuration), "p"))
+        pos <- pos[pos >= first & pos < i]
+        posmax <- which.max(configuration[1, pos])
+        if (debugme) {
+          cat ("sumcycle2:", sumcycle2, ", fixedtime:", fixedtime, "\n")
+          print(configuration[1, first:(i-1)])
+          cat ("posmax:", posmax, "pos:", pos[posmax],
+               "p:", configuration[1,pos[posmax]], "\n")
+        }
+        configuration[1,pos[posmax]] <- configuration[1,pos[posmax]] - 1
+        stopifnot(configuration[1,pos[posmax]] >= minphase)
+        sumcycle2 <- sum(as.numeric(configuration[1,first:(i-1)]))
+      }
+      if (debugme) {
+        cat ("sumcycle2:", sumcycle2, ", fixedtime:", fixedtime, "\n")
+        print(configuration[1, first:(i-1)])
+      }
+      stopifnot(sumcycle2 <= maxcycle)
+      stopifnot (sumcycle2 >= mincycle)
+    }
+    if (i == n) break # No more cycles
+    i <- i + 1
+    first <- i
+    sumcycle <- 0
+    fixedtime <- 0
+  }
+  return(configuration)
+}
+
+
+repair.javier <- function (configuration, parameters, digits)
+{
+  debugme <- FALSE
+  startsWith <- function (str, text, trim = FALSE, ignore.case = FALSE) 
+    {
+      if (trim) 
+        str <- trim(str)
+      if (ignore.case) {
+        str <- toupper(str)
+        text <- toupper(text)
+      }
+      substr(str, start = 1, stop = nchar(text)) == text
+    }
+  ## Convert everything to numeric. This also creates a vector.
+  configuration <- apply(configuration, 2, as.numeric)
+  maxcycle <- as.numeric(parameters$domain[["maxcycle"]])
+  mincycle <- as.numeric(parameters$domain[["mincycle"]])
+  minphase <- as.numeric(parameters$domain[["minphase"]])
+  p.pos <- which(startsWith(names(configuration), "p"))
+  c.pos <- which(startsWith(names(configuration), "c"))
+  o.pos <- which(startsWith(names(configuration), "o"))
+  max.pos <- max (p.pos, c.pos)
+  
+  if (debugme)
+    print(configuration)
+  
+  for (i in seq_along(o.pos)) {
+    first <- o.pos[i] + 1
+    if (i == length(o.pos)) {
+      last <- max.pos
+    } else {
+      last <- o.pos[i+1] - 1
+    }
+    stopifnot (startsWith(names(configuration)[first - 1], "o"))
+    sumcycle <- sum(configuration[first:last])
+    this.p.pos <- p.pos[p.pos >= first & p.pos <= last]
+    this.c.pos <- c.pos[c.pos >= first & c.pos <= last]
+    # FIXME: sumyellowtime and summinphase could be precalculated when
+    # generating parameters.
+    sumyellowtime <- sum(configuration[this.c.pos])
+    summinphase <- minphase * length(this.p.pos)
+    if (debugme) {
+      cat ("first: ", first, ", last: ", last, ", sumcycle:", sumcycle,
+           ", summinphase:", summinphase,
+           ", sumyellowtime:", sumyellowtime, "\n")
+      print(configuration[first:last])
+    }
+    if (sumcycle < mincycle) {
+      configuration[this.p.pos] <-
+          pmax(ceiling(
+            unlist(configuration[this.p.pos]) * (mincycle - sumyellowtime)
+            / (sumcycle - sumyellowtime)),
+            minphase)
+      sumcycle <- sum(configuration[first:last])
+      if (debugme) {
+        cat ("sumcycle:", sumcycle, ", summinphase:", summinphase,
+             ", sumyellowtime:", sumyellowtime, "\n")
+        print(configuration[first:last])
+      }
+    }
+
+    fixedtime <- summinphase + sumyellowtime
+    if (sumcycle > maxcycle) {
+      # round accumulates errors at a rate of length(value) / 2, trunc
+      # underestimates, but this is ok because the minphase is enforced.
+      x <- (minphase
+        + trunc(((configuration[this.p.pos] - minphase)
+          * (maxcycle - fixedtime)) / (sumcycle - fixedtime)))
+      configuration[this.p.pos] <- x
+      if (debugme) {
+        cat ("sumcycle:", sumcycle, ", fixedtime:", fixedtime, "\n")
+        print(configuration[first:last])
+      }
+    }
+    sumcycle2 <- sum(configuration[first:last])
+      
+    # off-by-one -> adjust
+    if (sumcycle2 == maxcycle + 1) {
+      this.p.posmax <- this.p.pos[which.max(configuration[this.p.pos])]
+      if (debugme) {
+        cat ("sumcycle2:", sumcycle2, ", fixedtime:", fixedtime, "\n")
+        print(configuration[first:last])
+        cat ("posmax:", this.p.posmax, ", p:", configuration[this.p.posmax], "\n")
+      }
+      configuration[this.p.posmax] <- configuration[this.p.posmax] - 1
+      stopifnot(configuration[this.p.posmax] >= minphase)
+      sumcycle2 <- sum(configuration[first:last])
+    }
+    if (debugme) {
+      cat ("sumcycle2:", sumcycle2, ", fixedtime:", fixedtime, "\n")
+      print(configuration[first:last])
+    }
+    stopifnot(sumcycle2 <= maxcycle)
+    stopifnot(sumcycle2 >= mincycle)
+  }
+  stopifnot (all(configuration[this.p.pos] >= minphase))
+  return(configuration)
+}
+
+repairConfiguration = repair.manuel
+
+## END of scenario file
+############################################################################
+

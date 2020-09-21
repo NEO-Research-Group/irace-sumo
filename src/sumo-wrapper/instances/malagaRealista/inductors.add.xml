@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additional>
+
+   <inductionLoop id="5.0" lane="75503608_0" pos="10" freq="600" file="out.xml"/> 
+   <inductionLoop id="5.1" lane="75503608_1" pos="10" freq="600" file="out.xml"/> 
+
+   <inductionLoop id="6.0" lane="-35836578#2_0" pos="100" freq="600" file="out.xml"/> 
+   <inductionLoop id="6.1" lane="-35836578#2_1" pos="100" freq="600" file="out.xml"/> 
+
+   <inductionLoop id="7.0" lane="35836578#2_0" pos="5" freq="600" file="out.xml"/> 
+   <inductionLoop id="7.1" lane="35836578#2_1" pos="5" freq="600" file="out.xml"/> 
+
+   <inductionLoop id="8.0" lane="-34435272#3_0" pos="5" freq="600" file="out.xml"/> 
+
+   <inductionLoop id="9.0" lane="34435272#4_0" pos="5" freq="600" file="out.xml"/> 
+
+   <inductionLoop id="10.0" lane="35772671_0" pos="300" freq="600" file="out.xml"/> 
+   <inductionLoop id="10.1" lane="35772671_1" pos="300" freq="600" file="out.xml"/>
+
+   <inductionLoop id="13.0" lane="27584067_0" pos="400" freq="600" file="out.xml"/> 
+
+   <inductionLoop id="14.0" lane="10028184#2_0" pos="60" freq="600" file="out.xml"/> 
+   <inductionLoop id="14.1" lane="10028184#2_1" pos="60" freq="600" file="out.xml"/> 
+   <inductionLoop id="14.2" lane="72455461#4_0" pos="60" freq="600" file="out.xml"/> 
+   <inductionLoop id="14.3" lane="72455461#4_1" pos="60" freq="600" file="out.xml"/>
+  
+   <inductionLoop id="15.0" lane="10070449#1_0" pos="32" freq="600" file="out.xml"/> 
+   <inductionLoop id="15.1" lane="10070449#1_1" pos="30" freq="600" file="out.xml"/>
+   <inductionLoop id="15.2" lane="-10028184#2_0" pos="10" freq="600" file="out.xml"/> 
+   <inductionLoop id="15.3" lane="-10028184#2_1" pos="10" freq="600" file="out.xml"/> 
+   
+   <inductionLoop id="16.0" lane="34474997#2_0" pos="5" freq="600" file="out.xml"/> 
+   <inductionLoop id="16.1" lane="34474997#2_1" pos="5" freq="600" file="out.xml"/> 
+
+   <inductionLoop id="17.0" lane="35902785#0_0" pos="210" freq="600" file="out.xml"/>
+   <inductionLoop id="17.1" lane="35902785#0_1" pos="210" freq="600" file="out.xml"/>
+
+   <inductionLoop id="18.0" lane="23162032#2_0" pos="5" freq="600" file="out.xml"/>
+   <inductionLoop id="18.1" lane="23162032#2_1" pos="5" freq="600" file="out.xml"/>
+
+   </additional>

@@ -1,0 +1,303 @@
+# Types of variables:
+# o        offset
+# f_p -fp  constant value that is not preceded by a -c; 
+#          either a pedestrian phase (4 seconds
+#          per lane) or a yellow phase; do not check minimum
+# f_y -fy  constant value that is preceded by a -c;
+#          either a pedestrian phase (4 seconds
+#          per lane) or a yellow phase; do not check minimum
+# f_v -fv  phase given in seconds; check > 15; check [60, 120]
+# c   -c   length of a new cycle, check [60, 120]
+# p        phase given as a ratio [0, 1] of the previous cycle value;
+#          check > 15, and sum of values [60, 120]
+o1 "-o " i (-30, 30) # 1001814 2
+f_v_1_0 "-fv " i (52, 112) # 1001814 2 GG (pedestrian cross)
+f_p_1_1 "-fp " c (8) # 1001814 2 yy (pedestrian cross)
+o2 "-o " i (-30, 30) # 1001816 2
+f_v_2_0 "-fv " i (52, 112) # 1001816 2 GG (pedestrian cross)
+f_p_2_1 "-fp " c (8) # 1001816 2 yy (pedestrian cross)
+o3 "-o " i (-30, 30) # 1001818 2
+f_v_3_0 "-fv " i (52, 112) # 1001818 2 GG (pedestrian cross)
+f_p_3_1 "-fp " c (8) # 1001818 2 yy (pedestrian cross)
+o4 "-o " i (-30, 30) # 1001820 2
+f_v_4_0 "-fv " i (52, 112) # 1001820 2 GG (pedestrian cross)
+f_p_4_1 "-fp " c (8) # 1001820 2 yy (pedestrian cross)
+o5 "-o " i (-30, 30) # 1001822 2
+f_v_5_0 "-fv " i (52, 112) # 1001822 2 GG (pedestrian cross)
+f_p_5_1 "-fp " c (8) # 1001822 2 yy (pedestrian cross)
+o6 "-o " i (-30, 30) # 1001824 2
+f_v_6_0 "-fv " i (52, 112) # 1001824 2 GG (pedestrian cross)
+f_p_6_1 "-fp " c (8) # 1001824 2 yy (pedestrian cross)
+o7 "-o " i (-30, 30) # 10074 4
+c7 "-c " i (22, 82) # 1 10074 4
+p7_0 "" r (0,1) # 10074 4 GGrrrGG
+f_y_7_1 "-fy " c (4) # 10074 4 yyrrryy
+p7_2 "" r (0,1) # 10074 4 rrGGGrr
+f_y_7_3 "-fy " c (4) # 10074 4 rryyyrr
+o8 "-o " i (-30, 30) # 1487934996 2
+f_v_8_0 "-fv " i (52, 112) # 1487934996 2 GG (pedestrian cross)
+f_p_8_1 "-fp " c (8) # 1487934996 2 yy (pedestrian cross)
+o9 "-o " i (-30, 30) # 1628306455 4
+c9 "-c " i (22, 82) # 2 1628306455 4
+p9_0 "" r (0,1) # 1628306455 4 GrrG
+f_y_9_1 "-fy " c (4) # 1628306455 4 yrry
+p9_2 "" r (0,1) # 1628306455 4 GGGr
+f_y_9_3 "-fy " c (4) # 1628306455 4 yyyr
+o10 "-o " i (-30, 30) # 1628918957 4
+c10 "-c " i (22, 82) # 3 1628918957 4
+p10_0 "" r (0,1) # 1628918957 4 GGrr
+f_y_10_1 "-fy " c (4) # 1628918957 4 yyrr
+p10_2 "" r (0,1) # 1628918957 4 rrGG
+f_y_10_3 "-fy " c (4) # 1628918957 4 rryy
+o11 "-o " i (-30, 30) # 1777568746 4
+c11 "-c " i (22, 82) # 4 1777568746 4
+p11_0 "" r (0,1) # 1777568746 4 GGrrGG
+f_y_11_1 "-fy " c (4) # 1777568746 4 yyrryy
+p11_2 "" r (0,1) # 1777568746 4 rrGGrr
+f_y_11_3 "-fy " c (4) # 1777568746 4 rryyrr
+o12 "-o " i (-30, 30) # 248606019 4
+c12 "-c " i (22, 82) # 5 248606019 4
+p12_0 "" r (0,1) # 248606019 4 rrrGGGG
+f_y_12_1 "-fy " c (4) # 248606019 4 rrryyyy
+p12_2 "" r (0,1) # 248606019 4 GGGrrrr
+f_y_12_3 "-fy " c (4) # 248606019 4 yyyrrrr
+o13 "-o " i (-30, 30) # 294035840 4
+c13 "-c " i (22, 82) # 6 294035840 4
+p13_0 "" r (0,1) # 294035840 4 GGrrG
+f_y_13_1 "-fy " c (4) # 294035840 4 yyrry
+p13_2 "" r (0,1) # 294035840 4 rrGGG
+f_y_13_3 "-fy " c (4) # 294035840 4 rryyy
+o14 "-o " i (-30, 30) # 294035851 4
+c14 "-c " i (22, 82) # 7 294035851 4
+p14_0 "" r (0,1) # 294035851 4 Grr
+f_y_14_1 "-fy " c (4) # 294035851 4 yrr
+p14_2 "" r (0,1) # 294035851 4 rGG
+f_y_14_3 "-fy " c (4) # 294035851 4 ryy
+o15 "-o " i (-30, 30) # 302890008 2
+f_v_15_0 "-fv " i (48, 108) # 302890008 2 GGG (pedestrian cross)
+f_p_15_1 "-fp " c (12) # 302890008 2 yyy (pedestrian cross)
+o16 "-o " i (-30, 30) # 303010204 4
+c16 "-c " i (22, 82) # 8 303010204 4
+p16_0 "" r (0,1) # 303010204 4 rrrGGGGG
+f_y_16_1 "-fy " c (4) # 303010204 4 rrryyyyy
+p16_2 "" r (0,1) # 303010204 4 GGGrrrrr
+f_y_16_3 "-fy " c (4) # 303010204 4 yyyrrrrr
+o17 "-o " i (-30, 30) # 303010241 4
+c17 "-c " i (22, 82) # 9 303010241 4
+p17_0 "" r (0,1) # 303010241 4 rrrGGG
+f_y_17_1 "-fy " c (4) # 303010241 4 rrryyy
+p17_2 "" r (0,1) # 303010241 4 GGGGrr
+f_y_17_3 "-fy " c (4) # 303010241 4 yyyyrr
+o18 "-o " i (-30, 30) # 303275184 2
+f_v_18_0 "-fv " i (52, 112) # 303275184 2 GG (pedestrian cross)
+f_p_18_1 "-fp " c (8) # 303275184 2 yy (pedestrian cross)
+o19 "-o " i (-30, 30) # 303275910 4
+c19 "-c " i (22, 82) # 10 303275910 4
+p19_0 "" r (0,1) # 303275910 4 GGrrrGG
+f_y_19_1 "-fy " c (4) # 303275910 4 yyrrryy
+p19_2 "" r (0,1) # 303275910 4 rrGGGrr
+f_y_19_3 "-fy " c (4) # 303275910 4 rryyyrr
+o20 "-o " i (-30, 30) # 303278079 4
+c20 "-c " i (22, 82) # 11 303278079 4
+p20_0 "" r (0,1) # 303278079 4 GGrrr
+f_y_20_1 "-fy " c (4) # 303278079 4 yyrrr
+p20_2 "" r (0,1) # 303278079 4 rrGGG
+f_y_20_3 "-fy " c (4) # 303278079 4 rryyy
+o21 "-o " i (-30, 30) # 303278502 4
+c21 "-c " i (22, 82) # 12 303278502 4
+p21_0 "" r (0,1) # 303278502 4 GGGrrr
+f_y_21_1 "-fy " c (4) # 303278502 4 yyyrrr
+p21_2 "" r (0,1) # 303278502 4 GrrGGG
+f_y_21_3 "-fy " c (4) # 303278502 4 yrryyy
+o22 "-o " i (-30, 30) # 331525908 2
+f_v_22_0 "-fv " i (40, 100) # 331525908 2 GGGGG (pedestrian cross)
+f_p_22_1 "-fp " c (20) # 331525908 2 yyyyy (pedestrian cross)
+o23 "-o " i (-30, 30) # 331526235 4
+c23 "-c " i (22, 82) # 13 331526235 4
+p23_0 "" r (0,1) # 331526235 4 GGGrr
+f_y_23_1 "-fy " c (4) # 331526235 4 yyyrr
+p23_2 "" r (0,1) # 331526235 4 GrrGG
+f_y_23_3 "-fy " c (4) # 331526235 4 yrryy
+o24 "-o " i (-30, 30) # 395965308 2
+f_v_24_0 "-fv " i (52, 112) # 395965308 2 GG (pedestrian cross)
+f_p_24_1 "-fp " c (8) # 395965308 2 yy (pedestrian cross)
+o25 "-o " i (-30, 30) # 395965326 4
+c25 "-c " i (22, 82) # 14 395965326 4
+p25_0 "" r (0,1) # 395965326 4 GGrr
+f_y_25_1 "-fy " c (4) # 395965326 4 yyrr
+p25_2 "" r (0,1) # 395965326 4 rrGG
+f_y_25_3 "-fy " c (4) # 395965326 4 rryy
+o26 "-o " i (-30, 30) # 418185587 4
+c26 "-c " i (22, 82) # 15 418185587 4
+p26_0 "" r (0,1) # 418185587 4 GGGGrrrrGG
+f_y_26_1 "-fy " c (4) # 418185587 4 yyyyrrrryy
+p26_2 "" r (0,1) # 418185587 4 rrrrGGGGrr
+f_y_26_3 "-fy " c (4) # 418185587 4 rrrryyyyrr
+o27 "-o " i (-30, 30) # 418218748 4
+c27 "-c " i (22, 82) # 16 418218748 4
+p27_0 "" r (0,1) # 418218748 4 GGgGGG
+f_y_27_1 "-fy " c (4) # 418218748 4 yygyyy
+p27_2 "" r (0,1) # 418218748 4 rrGrrr
+f_y_27_3 "-fy " c (4) # 418218748 4 rryrrr
+o28 "-o " i (-30, 30) # 418221294 6
+c28 "-c " i (3, 63) # 17 418221294 6
+p28_0 "" r (0,1) # 418221294 6 GGggrrGG
+f_y_28_1 "-fy " c (4) # 418221294 6 yyggrryy
+p28_2 "" r (0,1) # 418221294 6 rrGGrrrr
+f_y_28_3 "-fy " c (4) # 418221294 6 rryyrrrr
+p28_4 "" r (0,1) # 418221294 6 rrrrGGrr
+f_y_28_5 "-fy " c (4) # 418221294 6 rrrryyrr
+o29 "-o " i (-30, 30) # 418376984 4
+c29 "-c " i (22, 82) # 18 418376984 4
+p29_0 "" r (0,1) # 418376984 4 GGGrrrr
+f_y_29_1 "-fy " c (4) # 418376984 4 yyyrrrr
+p29_2 "" r (0,1) # 418376984 4 rrGGGGG
+f_y_29_3 "-fy " c (4) # 418376984 4 rryyyyy
+o30 "-o " i (-30, 30) # 418593684 2
+f_v_30_0 "-fv " i (52, 112) # 418593684 2 GG (pedestrian cross)
+f_p_30_1 "-fp " c (8) # 418593684 2 yy (pedestrian cross)
+o31 "-o " i (-30, 30) # 418976374 4
+c31 "-c " i (22, 82) # 19 418976374 4
+p31_0 "" r (0,1) # 418976374 4 Grr
+f_y_31_1 "-fy " c (4) # 418976374 4 yrr
+p31_2 "" r (0,1) # 418976374 4 rGG
+f_y_31_3 "-fy " c (4) # 418976374 4 ryy
+o32 "-o " i (-30, 30) # 418977426 4
+c32 "-c " i (22, 82) # 20 418977426 4
+p32_0 "" r (0,1) # 418977426 4 GGrrGG
+f_y_32_1 "-fy " c (4) # 418977426 4 yyrryy
+p32_2 "" r (0,1) # 418977426 4 rrGGrr
+f_y_32_3 "-fy " c (4) # 418977426 4 rryyrr
+o33 "-o " i (-30, 30) # 418986725 2
+f_v_33_0 "-fv " i (52, 112) # 418986725 2 GG (pedestrian cross)
+f_p_33_1 "-fp " c (8) # 418986725 2 yy (pedestrian cross)
+o34 "-o " i (-30, 30) # 418989199 4
+c34 "-c " i (22, 82) # 21 418989199 4
+p34_0 "" r (0,1) # 418989199 4 GGrr
+f_y_34_1 "-fy " c (4) # 418989199 4 yyrr
+p34_2 "" r (0,1) # 418989199 4 rrGG
+f_y_34_3 "-fy " c (4) # 418989199 4 rryy
+o35 "-o " i (-30, 30) # 419630409 4
+c35 "-c " i (22, 82) # 22 419630409 4
+p35_0 "" r (0,1) # 419630409 4 rrGGGG
+f_y_35_1 "-fy " c (4) # 419630409 4 rryyyy
+p35_2 "" r (0,1) # 419630409 4 GGrrrr
+f_y_35_3 "-fy " c (4) # 419630409 4 yyrrrr
+o36 "-o " i (-30, 30) # 419640944 2
+f_v_36_0 "-fv " i (52, 112) # 419640944 2 GG (pedestrian cross)
+f_p_36_1 "-fp " c (8) # 419640944 2 yy (pedestrian cross)
+o37 "-o " i (-30, 30) # 419641199 2
+f_v_37_0 "-fv " i (52, 112) # 419641199 2 GG (pedestrian cross)
+f_p_37_1 "-fp " c (8) # 419641199 2 yy (pedestrian cross)
+o38 "-o " i (-30, 30) # 419641406 4
+c38 "-c " i (22, 82) # 23 419641406 4
+p38_0 "" r (0,1) # 419641406 4 GGGrrG
+f_y_38_1 "-fy " c (4) # 419641406 4 yyyrry
+p38_2 "" r (0,1) # 419641406 4 rrrGGG
+f_y_38_3 "-fy " c (4) # 419641406 4 rrryyy
+o39 "-o " i (-30, 30) # 419641424 2
+f_v_39_0 "-fv " i (44, 104) # 419641424 2 GGGG (pedestrian cross)
+f_p_39_1 "-fp " c (16) # 419641424 2 yyyy (pedestrian cross)
+o40 "-o " i (-30, 30) # 419665949 4
+c40 "-c " i (22, 82) # 24 419665949 4
+p40_0 "" r (0,1) # 419665949 4 GGGrrr
+f_y_40_1 "-fy " c (4) # 419665949 4 yyyrrr
+p40_2 "" r (0,1) # 419665949 4 rrrGGG
+f_y_40_3 "-fy " c (4) # 419665949 4 rrryyy
+o41 "-o " i (-30, 30) # 419677113 4
+c41 "-c " i (22, 82) # 25 419677113 4
+p41_0 "" r (0,1) # 419677113 4 GGGrr
+f_y_41_1 "-fy " c (4) # 419677113 4 yyyrr
+p41_2 "" r (0,1) # 419677113 4 GrrGG
+f_y_41_3 "-fy " c (4) # 419677113 4 yrryy
+o42 "-o " i (-30, 30) # 419677118 4
+c42 "-c " i (22, 82) # 26 419677118 4
+p42_0 "" r (0,1) # 419677118 4 GGrr
+f_y_42_1 "-fy " c (4) # 419677118 4 yyrr
+p42_2 "" r (0,1) # 419677118 4 rrGG
+f_y_42_3 "-fy " c (4) # 419677118 4 rryy
+o43 "-o " i (-30, 30) # 419680393 4
+c43 "-c " i (22, 82) # 27 419680393 4
+p43_0 "" r (0,1) # 419680393 4 GGrr
+f_y_43_1 "-fy " c (4) # 419680393 4 yyrr
+p43_2 "" r (0,1) # 419680393 4 rrGG
+f_y_43_3 "-fy " c (4) # 419680393 4 rryy
+o44 "-o " i (-30, 30) # 549225865 2
+f_v_44_0 "-fv " i (52, 112) # 549225865 2 GG (pedestrian cross)
+f_p_44_1 "-fp " c (8) # 549225865 2 yy (pedestrian cross)
+o45 "-o " i (-30, 30) # 549225993 2
+f_v_45_0 "-fv " i (52, 112) # 549225993 2 GG (pedestrian cross)
+f_p_45_1 "-fp " c (8) # 549225993 2 yy (pedestrian cross)
+o46 "-o " i (-30, 30) # 549226011 2
+f_v_46_0 "-fv " i (52, 112) # 549226011 2 GG (pedestrian cross)
+f_p_46_1 "-fp " c (8) # 549226011 2 yy (pedestrian cross)
+o47 "-o " i (-30, 30) # 549226082 2
+f_v_47_0 "-fv " i (52, 112) # 549226082 2 GG (pedestrian cross)
+f_p_47_1 "-fp " c (8) # 549226082 2 yy (pedestrian cross)
+o48 "-o " i (-30, 30) # 577406877 2
+f_v_48_0 "-fv " i (52, 112) # 577406877 2 GG (pedestrian cross)
+f_p_48_1 "-fp " c (8) # 577406877 2 yy (pedestrian cross)
+o49 "-o " i (-30, 30) # 767455134 6
+c49 "-c " i (3, 63) # 28 767455134 6
+p49_0 "" r (0,1) # 767455134 6 GGGrrrrGGg
+f_y_49_1 "-fy " c (4) # 767455134 6 yyyrrrryyg
+p49_2 "" r (0,1) # 767455134 6 rrrrrrrrrG
+f_y_49_3 "-fy " c (4) # 767455134 6 rrrrrrrrry
+p49_4 "" r (0,1) # 767455134 6 rrrGGGGrrr
+f_y_49_5 "-fy " c (4) # 767455134 6 rrryyyyrrr
+o50 "-o " i (-30, 30) # 767455162 4
+c50 "-c " i (22, 82) # 29 767455162 4
+p50_0 "" r (0,1) # 767455162 4 Gr
+f_y_50_1 "-fy " c (4) # 767455162 4 yr
+p50_2 "" r (0,1) # 767455162 4 rG
+f_y_50_3 "-fy " c (4) # 767455162 4 ry
+o51 "-o " i (-30, 30) # 891445989 4
+c51 "-c " i (22, 82) # 30 891445989 4
+p51_0 "" r (0,1) # 891445989 4 GGrr
+f_y_51_1 "-fy " c (4) # 891445989 4 yyrr
+p51_2 "" r (0,1) # 891445989 4 rrGG
+f_y_51_3 "-fy " c (4) # 891445989 4 rryy
+o52 "-o " i (-30, 30) # cluster_-201_419660087 4
+c52 "-c " i (22, 82) # 31 cluster_-201_419660087 4
+p52_0 "" r (0,1) # cluster_-201_419660087 4 GGGrrrGG
+f_y_52_1 "-fy " c (4) # cluster_-201_419660087 4 yyyrrryy
+p52_2 "" r (0,1) # cluster_-201_419660087 4 GrrGGGrr
+f_y_52_3 "-fy " c (4) # cluster_-201_419660087 4 yrryyyrr
+o53 "-o " i (-30, 30) # cluster_10027947_419664747 4
+c53 "-c " i (22, 82) # 32 cluster_10027947_419664747 4
+p53_0 "" r (0,1) # cluster_10027947_419664747 4 GGGGGrrrrr
+f_y_53_1 "-fy " c (4) # cluster_10027947_419664747 4 yyyyyrrrrr
+p53_2 "" r (0,1) # cluster_10027947_419664747 4 rrGrrGGGGG
+f_y_53_3 "-fy " c (4) # cluster_10027947_419664747 4 rryrryyyyy
+o54 "-o " i (-30, 30) # cluster_1628707295_418599238 4
+c54 "-c " i (22, 82) # 33 cluster_1628707295_418599238 4
+p54_0 "" r (0,1) # cluster_1628707295_418599238 4 GGGrrrGG
+f_y_54_1 "-fy " c (4) # cluster_1628707295_418599238 4 yyyrrryy
+p54_2 "" r (0,1) # cluster_1628707295_418599238 4 GrrGGGrr
+f_y_54_3 "-fy " c (4) # cluster_1628707295_418599238 4 yrryyyrr
+o55 "-o " i (-30, 30) # cluster_248606020_248742493 6
+c55 "-c " i (3, 63) # 34 cluster_248606020_248742493 6
+p55_0 "" r (0,1) # cluster_248606020_248742493 6 rrrrGGrrrGG
+f_y_55_1 "-fy " c (4) # cluster_248606020_248742493 6 rrrryyrrryy
+p55_2 "" r (0,1) # cluster_248606020_248742493 6 GGGgrrGGgrr
+f_y_55_3 "-fy " c (4) # cluster_248606020_248742493 6 yyygrryygrr
+p55_4 "" r (0,1) # cluster_248606020_248742493 6 rrrGrrrrGrr
+f_y_55_5 "-fy " c (4) # cluster_248606020_248742493 6 rrryrrrryrr
+o56 "-o " i (-30, 30) # cluster_418376965_418976376 4
+c56 "-c " i (22, 82) # 35 cluster_418376965_418976376 4
+p56_0 "" r (0,1) # cluster_418376965_418976376 4 GGGGrr
+f_y_56_1 "-fy " c (4) # cluster_418376965_418976376 4 yyyyrr
+p56_2 "" r (0,1) # cluster_418376965_418976376 4 rrrrGG
+f_y_56_3 "-fy " c (4) # cluster_418376965_418976376 4 rrrryy
+o57 "-o " i (-30, 30) # cluster_419660800_419665935 4
+c57 "-c " i (22, 82) # 36 cluster_419660800_419665935 4
+p57_0 "" r (0,1) # cluster_419660800_419665935 4 GGGrrrrGG
+f_y_57_1 "-fy " c (4) # cluster_419660800_419665935 4 yyyrrrryy
+p57_2 "" r (0,1) # cluster_419660800_419665935 4 GrrGGGGrr
+f_y_57_3 "-fy " c (4) # cluster_419660800_419665935 4 yrryyyyrr
+o58 "-o " i (-30, 30) # cluster_891445901_891445947 4
+c58 "-c " i (22, 82) # 37 cluster_891445901_891445947 4
+p58_0 "" r (0,1) # cluster_891445901_891445947 4 GGGGrrrrr
+f_y_58_1 "-fy " c (4) # cluster_891445901_891445947 4 yyyyrrrrr
+p58_2 "" r (0,1) # cluster_891445901_891445947 4 rrrrGGGGG
+f_y_58_3 "-fy " c (4) # cluster_891445901_891445947 4 rrrryyyyy

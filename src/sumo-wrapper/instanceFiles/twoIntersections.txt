@@ -1,0 +1,8 @@
+twoIntersections
+instances/2-intersections/
+2
+16
+-14 8 rrrrGGGggrrrrGGGgg rrrryyyggrrrryyygg rrrrrrrGGrrrrrrrGG rrrrrrryyrrrrrrryy GGggrrrrrGGggrrrrr yyggrrrrryyggrrrrr rrGGrrrrrrrGGrrrrr rryyrrrrrrryyrrrrr 
+-52 8 rrrrGGGggrrrrGGGgg rrrryyyggrrrryyygg rrrrrrrGGrrrrrrrGG rrrrrrryyrrrrrrryy GGggrrrrrGGggrrrrr yyggrrrrryyggrrrrr rrGGrrrrrrrGGrrrrr rryyrrrrrrryyrrrrr 
+500
+1600

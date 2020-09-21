@@ -1,0 +1,15 @@
+###################################################### -*- mode: r -*- #####
+## Scenario setup for Iterated Race (iRace).
+############################################################################
+
+eval.parent(source("scenario-rel.txt", chdir = TRUE, local = TRUE))
+## Number of instances to add to execution list before previous instances in
+## elitist irace.
+elitistNewInstances = 0
+## Specifies how many instances are seen before the first elimination
+## test. It must be a multiple of eachTest.
+firstTest = 2
+
+## END of scenario file
+############################################################################
+

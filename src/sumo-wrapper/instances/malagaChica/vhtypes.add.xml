@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<additional> 
+     <vType id="sedan" accel="0.9" decel="5.0" sigma="0.5" minGap="1.0" length="3.8" maxSpeed="50.0" speedDev="0.1" impatience="0.1" color="1,1,0" guiShape="passenger/sedan" />
+</additional>
