@@ -151,16 +151,16 @@ if ( -s "${STDOUT}") {
 exit 0;
 
 sub generate_parameters {
-        my $filename = shift;
-        my @lines = `cat $filename`;
-
-        my $ncycles = 0;
-        my $ktlogics = 0;
-        my $kphases = 0;
-        my $lower;
-        my $upper;
-
-        print <<EOF;
+    my $filename = shift;
+    my @lines = `cat $filename`;
+    
+    my $ncycles = 0;
+    my $ktlogics = 0;
+    my $kphases = 0;
+    my $lower;
+    my $upper;
+    
+    print <<EOF;
 # Types of variables:
 # o  -o    offset
 # p  -p    phase given in seconds; check > $minphase; check 
@@ -169,90 +169,88 @@ sub generate_parameters {
 #          ($pedestrian seconds per lane) or a yellow phase; 
 #          do not check minimum
 EOF
-my $ntlogics;
-while (@lines) {
-    my $line = shift @lines;
-    if ($line =~ /^(\d+)$/) {
-        $ntlogics = 0 + $1; last;
+    my $ntlogics;
+    while (@lines) {
+        my $line = shift @lines;
+        if ($line =~ /^(\d+)$/) {
+            $ntlogics = 0 + $1; last;
+        }
     }
-}
-my $nphases = 0 + shift @lines;
-
-        # First print some constants:
-        print "maxcycle \"-maxcycle \" c ($maxcycle)\n";
-        print "mincycle \"-mincycle \" c ($mincycle)\n";
-        print "minphase \"-minphase \" c ($minphase)\n";
-        
-LINE: foreach my $line (@lines) {
-    if ($line =~ /^([^\s]+)\s+(?:[-.\d]+)?\s+(?:[-.\d]+)?\s+([\d]+)\s+((?:[a-zA-Z]\s*)+)$/) {
-        $ktlogics++;
-        my $id = $1;
-        my $num = $2;
-        my @phases = split(/\s+/, $3);
-        die "couldn't match $num phases in $line\n" if (@phases != $num);
-
-        $ncycles++;
-        if ($minoffset == $maxoffset) {
-            print "o${ktlogics} \"-o \" c ($minoffset) # $ncycles: $id $num\n";
-        } else {
-            print "o${ktlogics} \"-o \" i ($minoffset, $maxoffset) # $ncycles: $id $num\n";
-        }
-        # Count fixed time phases
-        my $fixedtotaltime = 0;
-        my $pedestrian_time = 0;
-        my $nfixed = 0;
-        for (my $i = 0; $i < $num; $i++) {
-            if (index($phases[$i], 'y') >= 0
-                and $phases[$i] =~ /[Ggr]/) {
-                $nfixed++;
-                $fixedtotaltime += $fixedphase;
-                $debug and warn " $id $num $phases[$i] fixedtotaltime = $fixedtotaltime (fixed phase)\n";
-            } elsif ($phases[$i] =~ /^y+$/) {
-                $nfixed++;
-                my $lanes = length($phases[$i]);
-                $pedestrian_time = $lanes * $pedestrian;
-                $fixedtotaltime += $pedestrian_time;
-                $debug and warn " $id $num $phases[$i] fixedtotaltime = $fixedtotaltime, pedestrian = $pedestrian_time\n";
+    my $nphases = 0 + shift @lines;
+    # First print some constants:
+    print "maxcycle \"-maxcycle \" c ($maxcycle)\n";
+    print "mincycle \"-mincycle \" c ($mincycle)\n";
+    print "minphase \"-minphase \" c ($minphase)\n";
+    
+  LINE: foreach my $line (@lines) {
+        if ($line =~ /^([^\s]+)\s+(?:[-.\d]+)?\s+(?:[-.\d]+)?\s+([\d]+)\s+((?:[a-zA-Z]\s*)+)$/) {
+            $ktlogics++;
+            my $id = $1;
+            my $num = $2;
+            my @phases = split(/\s+/, $3);
+            die "couldn't match $num phases in $line\n" if (@phases != $num);
+            $ncycles++;
+            if ($minoffset == $maxoffset) {
+                print "o${ktlogics} \"-o \" c ($minoffset) # $ncycles: $id $num\n";
             } else {
-                $fixedtotaltime += $minphase;
-                $debug and warn " $id $num $phases[$i] fixedtotaltime = $fixedtotaltime, pedestrian = $pedestrian_time\n";
+                print "o${ktlogics} \"-o \" i ($minoffset, $maxoffset) # $ncycles: $id $num\n";
             }
-        }
-        my $nnotfixed = $num - $nfixed;
-
-        if ($nnotfixed == 1) {
-            $lower = max ($mincycle - $pedestrian_time, $minphase);
-            $upper = max ($maxcycle - $pedestrian_time, $lower + 1);
+            # Count fixed time phases
+            my $fixedtotaltime = 0;
+            my $pedestrian_time = 0;
+            my $nfixed = 0;
+            for (my $i = 0; $i < $num; $i++) {
+                if (index($phases[$i], 'y') >= 0
+                    and $phases[$i] =~ /[Ggr]/) {
+                    $nfixed++;
+                    $fixedtotaltime += $fixedphase;
+                    $debug and warn " $id $num $phases[$i] fixedtotaltime = $fixedtotaltime (fixed phase)\n";
+                } elsif ($phases[$i] =~ /^y+$/) {
+                    $nfixed++;
+                    my $lanes = length($phases[$i]);
+                    $pedestrian_time = $lanes * $pedestrian;
+                    $fixedtotaltime += $pedestrian_time;
+                    $debug and warn " $id $num $phases[$i] fixedtotaltime = $fixedtotaltime, pedestrian = $pedestrian_time\n";
+                } else {
+                    $fixedtotaltime += $minphase;
+                    $debug and warn " $id $num $phases[$i] fixedtotaltime = $fixedtotaltime, pedestrian = $pedestrian_time\n";
+                }
+            }
+            my $nnotfixed = $num - $nfixed;
+            
+            if ($nnotfixed == 1) {
+                $lower = max ($mincycle - $pedestrian_time, $minphase);
+                $upper = max ($maxcycle - $pedestrian_time, $lower + 1);
+                for (my $i = 0; $i < $num; $i++) {
+                    $kphases++;
+                    if ($phases[$i] =~ /^y+$/) {
+                        print "c_${ktlogics}_${i} \"-c \" c ($pedestrian_time)";
+                    } else {
+                        print "p_${ktlogics}_${i} \"-p \" i ($lower, $upper)";
+                    }
+                    print " # $id $num $phases[$i] (pedestrian cross)\n";
+                }
+                next LINE;
+            }
+            $debug and warn "fixedtotaltime = $fixedtotaltime\n";
+            my $plower = $minphase;
+            my $pupper = $maxcycle - ($fixedtotaltime - $minphase);
+            die "$plower >= $pupper ($maxcycle - ($fixedtotaltime - $minphase))\n" unless ($plower < $pupper);
+            
             for (my $i = 0; $i < $num; $i++) {
                 $kphases++;
-                if ($phases[$i] =~ /^y+$/) {
-                    print "c_${ktlogics}_${i} \"-c \" c ($pedestrian_time)";
+                if (index($phases[$i], 'y') >= 0 and
+                    $phases[$i] =~ /[Ggr]/) {
+                    print "c_${ktlogics}_${i} \"-c \" c (4) # $id $num $phases[$i]\n";
+                } elsif ($phases[$i] =~ /^y+$/) {
+                    print "c_${ktlogics}_${i} \"-c \" c ($pedestrian_time) # $id $num $phases[$i] (pedestrian cross)\n";
                 } else {
-                    print "p_${ktlogics}_${i} \"-p \" i ($lower, $upper)";
+                    print "p_${ktlogics}_${i} \"-p \" i ($plower,$pupper) # $id $num $phases[$i]\n";
                 }
-                print " # $id $num $phases[$i] (pedestrian cross)\n";
-            }
-            next LINE;
-        }
-        $debug and warn "fixedtotaltime = $fixedtotaltime\n";
-        my $plower = $minphase;
-        my $pupper = $maxcycle - ($fixedtotaltime - $minphase);
-        die "$plower >= $pupper ($maxcycle - ($fixedtotaltime - $minphase))\n" unless ($plower < $pupper);
-
-        for (my $i = 0; $i < $num; $i++) {
-            $kphases++;
-            if (index($phases[$i], 'y') >= 0 and
-                $phases[$i] =~ /[Ggr]/) {
-                print "c_${ktlogics}_${i} \"-c \" c (4) # $id $num $phases[$i]\n";
-            } elsif ($phases[$i] =~ /^y+$/) {
-                print "c_${ktlogics}_${i} \"-c \" c ($pedestrian_time) # $id $num $phases[$i] (pedestrian cross)\n";
-            } else {
-                print "p_${ktlogics}_${i} \"-p \" i ($plower,$pupper) # $id $num $phases[$i]\n";
             }
         }
     }
+    
+    die "mismatch of tlogics read ($ktlogics) and number of tlogics specified in the third line ($ntlogics)\n" if ($ktlogics != $ntlogics);
+    die "mismatch of phases read ($kphases) and number of phases specified in the fourth line ($nphases)\n" if ($kphases != $nphases);
 }
-
-die "mismatch of tlogics read ($ktlogics) and number of tlogics specified in the third line ($ntlogics)\n" if ($ktlogics != $ntlogics);
-die "mismatch of phases read ($kphases) and number of phases specified in the fourth line ($nphases)\n" if ($kphases != $nphases);
-    }
